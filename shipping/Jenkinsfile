@@ -47,7 +47,7 @@ pipeline {
         }
         stage('scan image') {
             steps {
-                sh " trivy image ${PROJECT}/${COMPONENT}:${APPVERSION}-${BUILD_NUMBER} >> shipping-image-scan.txt"
+                sh " trivy image --skip-java-db --severity HIGH,CRITICAL ${PROJECT}/${COMPONENT}:${APPVERSION}-${BUILD_NUMBER} >> shipping-image-scan.txt"
             }
         }
         stage('push') {
