@@ -46,8 +46,10 @@ pipeline {
             }
             steps {
                 dir('catalogue') {
-                    withSonarQubeEnv('sonar-server') {
-                    sh "${scannerHome}/bin/sonar-scanner"
+                    script {
+                        withSonarQubeEnv('sonar-server') {
+                        sh "${scannerHome}/bin/sonar-scanner"
+                        }
                     }
                 }
             }
