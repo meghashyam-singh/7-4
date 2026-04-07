@@ -45,10 +45,12 @@ pipeline {
                 def scannerHome = tool 'sonar-8.0'
             }
             steps {
-                script {
-                    withSonarQubeEnv('sonar-server') { 
-                    sh "${scannerHome}/bin/sonar-scanner"
+                dir('user') {
+                    script {
+                        withSonarQubeEnv('sonar-server') { 
+                        sh "${scannerHome}/bin/sonar-scanner"
                     }
+                }
                 }
             }
         }
