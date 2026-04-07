@@ -6,7 +6,7 @@ pipeline {
     }
     environment {
         APPVERSION=''
-        REGION='us-east1'
+        REGION='us-east-1'
         ACCOUNT_ID='515138251473'
         PROJECT='roboshop'
         COMPONENT='cart'
@@ -37,6 +37,20 @@ pipeline {
             steps {
                 dir('cart') {
                     sh "npm install"
+                }
+            }
+        }
+        stage('sonar scan') {
+            environment {
+                def scannerHome = tool 'sonar-8.0'
+            }
+            steps {
+                dir('cart') {
+                    script {
+                        withSonarQubeEnv('sonar-server') {
+                        sh "${scannerHome}/bin/sonar-scanner"
+                        }
+                    }
                 }
             }
         }
