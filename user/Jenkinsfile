@@ -25,9 +25,11 @@ pipeline {
         stage('read version') {
             steps {
                 dir('user') {
-                    def pom = readJSON() file: 'package.json'
-                    APPVERSION = pom.version
-                    echo "APPVERSION IS: ${APPVERSION}"
+                    script {
+                        def pom = readJSON() file: 'package.json'
+                        APPVERSION = pom.version
+                        echo "APPVERSION IS: ${APPVERSION}"
+                    }
                 }
             }
         }
