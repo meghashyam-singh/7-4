@@ -26,7 +26,7 @@ pipeline {
             steps {
                 dir('user') {
                     script {
-                        def pom = readJSON() file: 'package.json'
+                        def pom = readJSON file: 'package.json'
                         APPVERSION = pom.version
                         echo "APPVERSION IS: ${APPVERSION}"
                     }
@@ -47,7 +47,7 @@ pipeline {
         }
         stage('scan image') {
             steps {
-                sh "trivy image ${PROJECT}/${COMPONENT}:${APPVERSION}-${BUILD_NUMBER} >> user-image-sacn.txt"
+                sh "trivy image ${PROJECT}/${COMPONENT}:${APPVERSION}-${BUILD_NUMBER} >> user-image-scan.txt"
             }
         }
         stage('push') {
@@ -58,8 +58,6 @@ pipeline {
                     docker tag ${PROJECT}/${COMPONENT}:${APPVERSION}-${BUILD_NUMBER} ${ACCOUNT_ID}.dkr.ecr.${REGION}.amazonaws.com/${PROJECT}/${COMPONENT}:${APPVERSION}-${BUILD_NUMBER}
                     docker push ${ACCOUNT_ID}.dkr.ecr.${REGION}.amazonaws.com/${PROJECT}/${COMPONENT}:${APPVERSION}-${BUILD_NUMBER}
                     """
-                    """
-                }
                 }
             }
         }
