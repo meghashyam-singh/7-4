@@ -40,6 +40,18 @@ pipeline {
                 }
             }
         }
+        stage('sonar-scan') {
+            environmnet {
+                def scannerHome = tool 'sonar-8.0'
+            }
+            steps {
+                dir('catalogue') {
+                    withSonarQubeEnv('sonar-server') {
+                    sh "${scannerHome}/bin/sonar-scanner"
+                    }
+                }
+            }
+        }
         stage('image build') {
             steps {
                 sh "docker build -t ${PROJECT}/${COMPONENT}:${APPVERSION}-${BUILD_NUMBER} ./catalogue"
