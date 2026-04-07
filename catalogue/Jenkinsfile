@@ -41,7 +41,7 @@ pipeline {
             }
         }
         stage('sonar-scan') {
-            environmnet {
+            environment {
                 def scannerHome = tool 'sonar-8.0'
             }
             steps {
